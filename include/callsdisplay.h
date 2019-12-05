@@ -36,7 +36,7 @@ public slots:
 private:
     enum Column
     {
-        ID = 0,
+        ID,
         DATE,
         TIME,
         NUMBER,
