@@ -8,7 +8,7 @@ Authentication::Authentication(QWidget *parent)
     ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     Authentication::setWindowIcon(QIcon(":img/auth.png"));
-    rememberLP = new QSettings(QDir::currentPath() + "/config.ini", QSettings::IniFormat);
+    rememberLP = std::make_unique<QSettings>(QDir::currentPath() + "/config.ini", QSettings::IniFormat);
     ui->logEdit->setText(rememberLP->value("login").toString());
     ui->pwdEdit->setText(rememberLP->value("password").toString());
     if (rememberLP->value("remember") == "true")
@@ -52,7 +52,7 @@ void Authentication::on_buttonBox_accepted()
         {
             authStatus = OK;
             emit setLogin(tempUserName);
-            userVerification.finish();
+            break;
         }
         else if (tempLogin != ui->logEdit->text())
         {

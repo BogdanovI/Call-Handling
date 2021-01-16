@@ -9,7 +9,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QtGui>
-
+Q_DECLARE_METATYPE(std::shared_ptr<Authentication>);
 QT_BEGIN_NAMESPACE
 namespace Ui
 {
@@ -24,7 +24,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
 public slots:
     void getLogin(QString userName);
 private slots:
@@ -41,7 +40,7 @@ private:
 
     Ui::MainWindow *ui;
 
-    Authentication *newAuthWindow;
+    Authentication *newAuthWindow = new Authentication;;
 
     QTimer *checkNewAppeals;
 

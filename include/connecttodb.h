@@ -2,18 +2,19 @@
 #define CONNECTTODB_H
 #include <QString>
 #include <QtSql>
+#include <QObject>
 
-class ConnectToDB
+class ConnectToDB : public QObject
 {
+    Q_OBJECT
 private:
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    QString hostName, dbName, uName, uPass;
-    int sPort;
-
+    QSqlDatabase db;
+    QString dbName;
+    QSqlQuery setChange;
+    ConnectToDB();
 public:
-    QString checkConnect();
-    ConnectToDB(QString _dbName);
-    ConnectToDB(QString _hostName, QString _dbName, QString _uName, QString _uPass, int _sPort);
+    static QString dataBaseStatus(ConnectToDB *database);
+    static ConnectToDB *getInstance();
 };
 
 #endif // CONNECTTODB_H

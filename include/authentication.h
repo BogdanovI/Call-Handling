@@ -31,7 +31,7 @@ private:
         FAIL_LOGIN = 1,
         FAIL_PASSWORD = 2
     };
-    QSettings *rememberLP;
+    std::unique_ptr<QSettings> rememberLP;
 };
 
 #endif // AUTHENTICATION_H

@@ -1,38 +1,29 @@
 #include "include/connecttodb.h"
 
-QString ConnectToDB::checkConnect()
+QString ConnectToDB::dataBaseStatus(ConnectToDB *database)
 {
-    bool checkConnect = db.open();
-    QString answerDB;
-    if (!checkConnect)
+    QString lastMessage;
+    if (!database->db.open())
     {
-        answerDB = db.lastError().text();
+        lastMessage = database->db.lastError().text();
     }
     else
     {
-        answerDB = "Connected";
+        lastMessage = "Connected";
     }
-    return answerDB;
+    return lastMessage;
 }
 
-ConnectToDB::ConnectToDB(QString _dbName)
-    : dbName(_dbName)
+ConnectToDB *ConnectToDB::getInstance()
 {
-    db.setDatabaseName(dbName);
-    db.open();
+    static ConnectToDB instance;
+    return &instance;
 }
 
-ConnectToDB::ConnectToDB(QString _hostName, QString _dbName, QString _uName, QString _uPass, int _sPort)
-    : hostName(_hostName)
-    , dbName(_dbName)
-    , uName(_uName)
-    , uPass(_uPass)
-    , sPort(_sPort)
+ConnectToDB::ConnectToDB()
 {
-    db.setHostName(hostName);
-    db.setPort(sPort);
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    dbName = "./appeals.sql";
     db.setDatabaseName(dbName);
-    db.setUserName(uName);
-    db.setPassword(uPass);
     db.open();
 }

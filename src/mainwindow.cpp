@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     MainWindow::setFixedSize(1024, 620);
     MainWindow::setWindowIcon(QIcon(":img/logo.png"));
     ui->refreshQuery->setIcon(QIcon(":img/refresh.png"));
-    ui->statusbar->showMessage(tableModel->db->checkConnect());
+    ui->statusbar->showMessage(tableModel->checkDataBaseConnection());
     createUiTable();
     checkNewAppeals = new QTimer(this);
     checkNewAppeals->setInterval(60000);
@@ -25,6 +25,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete newAuthWindow;
+    delete tableModel;
     delete ui;
 }
 
@@ -59,9 +61,8 @@ void MainWindow::createUiTable()
 
 void MainWindow::on_authBtn_clicked()
 {
-    newAuthWindow = new Authentication();
     connect(newAuthWindow, SIGNAL(setLogin(QString)), this, SLOT(getLogin(QString)));
-    newAuthWindow->show();
+    newAuthWindow->show();    
 }
 
 void MainWindow::on_autoRefresh_stateChanged(int arg1)

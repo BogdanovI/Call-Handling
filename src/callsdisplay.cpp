@@ -3,7 +3,7 @@
 CallsDisplay::CallsDisplay(QObject *parent)
     : QAbstractTableModel(parent)
 {
-    db = new ConnectToDB("C:/Users/79992/query_processing.sqlite");
+    ConnectToDB::getInstance()->moveToThread(thread);
 }
 
 QVariant CallsDisplay::headerData(int section, Qt::Orientation orientation, int role) const
@@ -191,6 +191,11 @@ void CallsDisplay::downloadAppels(int whichDisplay)
     QModelIndex stopIndex = createIndex(m_table.size(), STATUS + 1);
     emit dataChanged(startIndex, stopIndex);
     endResetModel();
+}
+
+const QString CallsDisplay::checkDataBaseConnection()
+{
+    return ConnectToDB::dataBaseStatus(ConnectToDB::getInstance());
 }
 
 void CallsDisplay::slotForReloadAppels()
